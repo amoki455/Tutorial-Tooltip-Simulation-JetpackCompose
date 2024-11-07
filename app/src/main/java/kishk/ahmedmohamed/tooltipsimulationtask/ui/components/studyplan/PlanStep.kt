@@ -102,20 +102,24 @@ fun PlanStep(
             Column(
                 verticalArrangement = Arrangement.Center
             ) {
-                Text(
-                    text = title,
-                    color = if (enabled) MaterialTheme.colorScheme.secondary else colorPrimary,
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 16.sp,
-                    maxLines = 1,
-                )
-                Text(
-                    text = subTitle,
-                    color = if (enabled) MaterialTheme.colorScheme.secondary else colorPrimary,
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 16.sp,
-                    maxLines = 1,
-                )
+                if (title.isNotEmpty()) {
+                    Text(
+                        text = title,
+                        color = if (enabled) MaterialTheme.colorScheme.secondary else colorPrimary,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 16.sp,
+                        maxLines = 1,
+                    )
+                }
+                if (subTitle.isNotEmpty()) {
+                    Text(
+                        text = subTitle,
+                        color = if (enabled) MaterialTheme.colorScheme.secondary else colorPrimary,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 16.sp,
+                        maxLines = 1,
+                    )
+                }
             }
         }
         if (hasNext) {
