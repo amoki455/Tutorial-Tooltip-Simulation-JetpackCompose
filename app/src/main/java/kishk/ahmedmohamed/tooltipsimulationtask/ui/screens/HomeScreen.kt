@@ -24,25 +24,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kishk.ahmedmohamed.tooltipsimulationtask.data.StudyPlanStep
+import kishk.ahmedmohamed.tooltipsimulationtask.data.studyPlanSteps
 import kishk.ahmedmohamed.tooltipsimulationtask.ui.components.studyplan.PlanStep
 import kishk.ahmedmohamed.tooltipsimulationtask.ui.theme.TooltipSimulationTaskTheme
 
 @Composable
 fun HomeScreen() {
-    // using dummy data, since the purpose is just demonstration
-    val steps by remember {
-        mutableStateOf(
-            listOf(
-                StudyPlanStep("Unite 1:", subTitle = "What is success"),
-                StudyPlanStep("Unite 2:", subTitle = "What is CTF", enabled = false),
-                StudyPlanStep(subTitle = "Writing tasks", enabled = false),
-                StudyPlanStep(subTitle = "Oral task", enabled = false),
-                StudyPlanStep(subTitle = "Oral task", enabled = false),
-                StudyPlanStep(subTitle = "Oral task", enabled = false),
-                StudyPlanStep(subTitle = "Oral task", enabled = false, hasNext = false),
-            )
-        )
-    }
     Column {
         Column(modifier = Modifier.padding(horizontal = 16.dp)) {
             WelcomeMessage()
@@ -59,7 +46,7 @@ fun HomeScreen() {
         LazyColumn(
             contentPadding = PaddingValues(horizontal = 16.dp)
         ) {
-            itemsIndexed(steps) { x, it ->
+            itemsIndexed(studyPlanSteps) { x, it ->
                 PlanStep(
                     title = it.title,
                     subTitle = it.subTitle,
