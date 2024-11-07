@@ -3,6 +3,7 @@ package kishk.ahmedmohamed.tooltipsimulationtask.ui
 import kotlinx.serialization.Serializable
 import androidx.annotation.StringRes
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.painterResource
@@ -62,7 +63,8 @@ sealed class AppNavDestination(
         Text(
             text = stringResource(id = titleStringResourceId),
             fontWeight = FontWeight.Bold,
-            fontSize = 18.sp
+            color = MaterialTheme.colorScheme.primary,
+            fontSize = 24.sp
         )
     }
 }
