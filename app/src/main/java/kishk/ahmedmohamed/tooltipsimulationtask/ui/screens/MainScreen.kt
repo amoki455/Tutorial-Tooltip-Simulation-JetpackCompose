@@ -14,6 +14,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -44,6 +45,28 @@ fun MainScreen(
     onTutorialProgress: (nextStage: TutorialStage) -> Unit
 ) {
     var currentDestination by remember { mutableStateOf(startDestination) }
+
+    LaunchedEffect(key1 = tutorialStage) {
+        when (tutorialStage) {
+            TutorialStage.ConnectNavigation -> {
+                if (currentDestination != AppNavDestination.Connect) {
+                    navController.navigate(AppNavDestination.Connect)
+                }
+            }
+
+            TutorialStage.QuestionsNavigation,
+            TutorialStage.QuestionsFilter,
+            TutorialStage.QuestionsCard -> {
+                if (currentDestination != AppNavDestination.Questions) {
+                    navController.navigate(AppNavDestination.Questions)
+                }
+            }
+
+            TutorialStage.Start,
+            TutorialStage.HomeNavigation,
+            TutorialStage.Finish -> return@LaunchedEffect
+        }
+    }
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -100,7 +123,7 @@ fun MainScreen(
                     currentDestination = AppNavDestination.Connect
                 }
                 composable<AppNavDestination.Questions> {
-                    QuestionsScreen(tutorialStage, onTutorialProgress)
+                    QuestionsScreen(tutorialStage, tutorialToolTipMessage, onTutorialProgress)
                     currentDestination = AppNavDestination.Questions
                 }
                 composable<AppNavDestination.Tools> {
@@ -123,7 +146,8 @@ fun MainScreen(
             properties = DialogProperties(usePlatformDefaultWidth = false)
         ) {
             Box(
-                modifier = Modifier.fillMaxSize()
+                modifier = Modifier
+                    .fillMaxSize()
                     .background(MaterialTheme.colorScheme.inverseSurface.copy(alpha = 0.4f))
                     .clickable { onTutorialProgress(TutorialStage.HomeNavigation) },
                 contentAlignment = Alignment.Center
