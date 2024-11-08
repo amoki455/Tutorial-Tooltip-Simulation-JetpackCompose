@@ -105,13 +105,16 @@ private fun Progress(
     total: Double,
     remaining: Double,
 ) {
-    Column {
+    Column(
+        modifier = Modifier.fillMaxWidth(),
+    ) {
         Text(
             text = "Progress ${((remaining / total) * 100).toInt()}%",
             fontSize = 12.sp,
             color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f)
         )
         LinearProgressIndicator(
+            modifier = Modifier.fillMaxWidth(),
             gapSize = 0.dp,
             progress = {
                 (remaining / total).toFloat()

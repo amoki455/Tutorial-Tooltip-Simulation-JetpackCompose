@@ -1,11 +1,14 @@
 package kishk.ahmedmohamed.tooltipsimulationtask.ui.components
 
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.LocalContentColor
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.runtime.Composable
 import kishk.ahmedmohamed.tooltipsimulationtask.ui.AppNavDestination
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Text
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -49,8 +52,22 @@ fun AppNavigationBar(
                 NavigationBarItem(
                     selected = currentDestination == destination,
                     onClick = { onDestinationClick(destination) },
-                    icon = destination.icon,
-                    label = { destination.Label() },
+                    icon = {
+                        CompositionLocalProvider(
+                            LocalContentColor provides if (currentDestination == destination)
+                                MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface
+                        ) {
+                            destination.icon()
+                        }
+                    },
+                    label = {
+                        CompositionLocalProvider(
+                            LocalContentColor provides if (currentDestination == destination)
+                                MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface
+                        ) {
+                            destination.Label()
+                        }
+                    },
                     alwaysShowLabel = true
                 )
             }
@@ -85,7 +102,7 @@ private fun Preview() {
             onDestinationClick = {},
             tutorialToolTipMessage = "Hello world",
             onTutorialProgress = {},
-            tutorialStage = TutorialStage.HomeNavigation
+            tutorialStage = TutorialStage.Start
         )
     }
 }
