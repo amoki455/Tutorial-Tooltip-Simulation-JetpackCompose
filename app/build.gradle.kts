@@ -1,9 +1,19 @@
+import java.io.FileInputStream
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.compose.compiler)
     id("org.jetbrains.kotlin.plugin.serialization")
 }
+
+val keystoreProperties = Properties()
+val keystorePropertiesFile = rootProject.file("key.properties")
+if (keystorePropertiesFile.exists()) {
+    keystoreProperties.load(FileInputStream(keystorePropertiesFile))
+}
+
 
 android {
     namespace = "kishk.ahmedmohamed.tooltipsimulationtask"
@@ -22,13 +32,23 @@ android {
         }
     }
 
+    signingConfigs {
+        create("release") {
+            keyAlias = keystoreProperties["keyAlias"].toString()
+            keyPassword = keystoreProperties["keyPassword"].toString()
+            storeFile = file(keystoreProperties["storeFile"].toString())
+            storePassword = keystoreProperties["storePassword"].toString()
+        }
+    }
+
     buildTypes {
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            signingConfig = signingConfigs.getByName("release")
         }
     }
     compileOptions {
